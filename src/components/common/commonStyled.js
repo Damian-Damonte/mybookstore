@@ -11,7 +11,6 @@ export const FullWidthContainer = styled.div`
 export const MaxWidthStyledContainer = styled.div`
   width: 100%;
   padding: 0px 20px;
-  /* background-color: pink; */
   display: flex;
   flex-direction: column;
   max-width: 1100px;
@@ -20,3 +19,23 @@ export const MaxWidthStyledContainer = styled.div`
     padding: 0px 40px;
   }
 `
+
+export const LoaderStyled = styled.span`
+  width: ${({ $size }) => $size};
+  height: ${({ $size }) => $size};
+  border: ${({ $borderWidth }) => $borderWidth} solid ${({ $bgcColor }) => $bgcColor};
+  border-bottom-color: ${({ $loaderColor}) => $loaderColor};
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 0.8s linear infinite;
+
+  @keyframes rotation {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+`;

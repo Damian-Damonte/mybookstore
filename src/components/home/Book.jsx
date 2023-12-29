@@ -1,12 +1,14 @@
 import { BookContainer, BookImageContainer, BtnsContainer, GenreBtnsContainer, StockPriceContainer, TitleAuthorContainer } from './homeStyled'
-import EditIcon from "../../assets/edit.svg"
-import DeleteIcon from "../../assets/delete.svg"
+import EditIcon from "../../assets/edit.svg";
+import DeleteIcon from "../../assets/delete.svg";
+import PropTypes from "prop-types";
 
-export default function Book() {
+
+export default function Book({book}) {
   return (
     <BookContainer>
       <GenreBtnsContainer>
-        <span>Terror</span>
+        <span>{book.genre}</span>
         <BtnsContainer>
           <img src={EditIcon} />
           <img src={DeleteIcon} />
@@ -14,13 +16,17 @@ export default function Book() {
       </GenreBtnsContainer>
       <BookImageContainer />
       <TitleAuthorContainer>
-        <span>El Alquimista</span>
-        <span>Paulo Coelho</span>
+        <span>{book.title}</span>
+        <span>{book.author}</span>
       </TitleAuthorContainer>
-      <StockPriceContainer>
-        <span>Stock: 22</span>
-        <span>$17.000</span>
+      <StockPriceContainer $noStock={book.quantity === 0}>
+        <span>Stock:<span>{book.quantity}</span></span>
+        <span>${book.price}</span>
       </StockPriceContainer>
     </BookContainer>
   )
 }
+
+Book.propTypes = {
+  book: PropTypes.object,
+};

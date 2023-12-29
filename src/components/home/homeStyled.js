@@ -11,8 +11,7 @@ export const SearchNavContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin-top: 30px;
   row-gap: 15px;
 
   @media (min-width: 400px) {
@@ -21,7 +20,7 @@ export const SearchNavContainer = styled.div`
   }
 `;
 
-export const SearchInputContainer = styled.div`
+export const SearchInputContainer = styled.form`
   display: flex;
   width: 100%;
   align-items: center;
@@ -40,19 +39,22 @@ export const SearchInputContainer = styled.div`
     background-color: #efe081;
   }
 
-  img {
+  button {
     width: 35px;
     border-radius: 10px;
     background-color: #fff;
     height: 35px;
     padding: 4px;
-    transition: all 0.3s ease;
     cursor: pointer;
     border: #000 solid 1px;
     background-color: #efe081;
 
     &:hover {
       background-color: #ddce77;
+    }
+
+    img {
+      width: 100%;
     }
   }
 `;
@@ -63,7 +65,10 @@ export const BookContainerStyled = styled.div`
   gap: 30px;
   flex-wrap: wrap;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
+  margin-top: 30px;
+  min-height: 310px;
+
 `;
 
 export const BookContainer = styled.div`
@@ -145,7 +150,10 @@ export const StockPriceContainer = styled.div`
   justify-content: space-between;
   margin-top: 10px;
 
-  span:nth-child(1) {
+  span:nth-child(1)>span {
+    background-color: ${({ $noStock }) => $noStock ? "#ff6961" : ""};
+    padding: 2px 5px;
+    border-radius: 5px;
   }
   span:nth-child(2) {
     background-color: #b0f2c2;
@@ -177,3 +185,25 @@ export const PageBtn = styled.button`
     background-color: #ddce77;
   }
 `;
+
+export const NoBooksContainer = styled.div`
+  width: 100%;
+  max-width: 600px;
+  background-color: #efe081;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 10px;
+
+  img {
+    width: 60px;
+  }
+
+  h2 {
+    margin-top: 15px;
+    text-align: center;
+    font-size: 20px;
+  }
+`

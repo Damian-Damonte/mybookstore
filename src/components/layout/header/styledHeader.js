@@ -7,13 +7,13 @@ export const HeaderContainer = styled.div`
   align-items: center;
   justify-content: space-between;
 
-  span {
+  >span {
     color: #fff;
     font-weight: 600;
     font-size: 18px;
   }
 
-  button {
+  >button {
     background-color: #61f4de;
     /* background-color: #87C19B; */
     /* background-color: #EFE081; */
