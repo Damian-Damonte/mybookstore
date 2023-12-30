@@ -1,17 +1,17 @@
-import { NoBooksContainer } from './homeStyled'
+import { BookContainerMsgContainer } from './homeStyled'
 import PropTypes from "prop-types";
 
 
 export default function BookContainerMsg({imgSrc, text}) {
   return (
-    <NoBooksContainer>
+    <BookContainerMsgContainer>
       <img src={imgSrc}/>
       <h2>{text}</h2>
-    </NoBooksContainer>
+    </BookContainerMsgContainer>
   )
 }
 
 BookContainerMsg.propTypes = {
-  setSearch: PropTypes.string,
-  handleSearch: PropTypes.string,
+  imgSrc: PropTypes.string,
+  text: PropTypes.string,
 };

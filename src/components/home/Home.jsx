@@ -6,33 +6,46 @@ import SearchNav from "./SearchNav";
 import { getBooks, searchBooksByTitle } from "../../service/books";
 
 export default function Home() {
-  const [booksState, setProductState] = useState({books:[], loading: false, error: null});
+  const [booksState, setBooksState] = useState({books:[], loading: false, error: null});
 
   useEffect(() => {
     const fetch = async() => {
-      setProductState({books:[], loading: true, error: null})
+      setBooksState({books:[], loading: true, error: null})
       const response = await getBooks();
       response.error
-        ? setProductState({books:[], loading: false, error: response.error})
-        : setProductState({books:response.data.data, loading: false, error: null})
+        ? setBooksState({books:[], loading: false, error: response.error})
+        : setBooksState({books:response.data.data, loading: false, error: null})
       };
     
       fetch();
   }, []);
 
   const handleSearch = async(title) => {
-    setProductState({books:[], loading: true, error: null})
+    setBooksState({books:[], loading: true, error: null})
     const response = await searchBooksByTitle(title);
     response.error
-      ? setProductState({books:[], loading: false, error: response.error})
-      : setProductState({books:response.data.data, loading: false, error: null})
+      ? setBooksState({books:[], loading: false, error: response.error})
+      : setBooksState({books:response.data.data, loading: false, error: null})
+  };
+
+  const updateBookState = (book) => {
+    const booksCopy = [...booksState.books];
+    const bookIndex = booksCopy.findIndex(b => b.id === book.id);
+    booksCopy[bookIndex] = book;
+    setBooksState({...booksState, books: booksCopy});
+  };
+
+  const deleteBookState = (id) => {
+    const booksCopy = [...booksState.books];
+    const booksFilter = booksCopy.filter(b => b.id !== id);
+    setBooksState({...booksState, books: booksFilter});
   };
 
   return (
     <FullWidthContainer $backgroundColor="#fffcef">
       <MaxWidthStyledContainer >
         <SearchNav handleSearch={handleSearch} />
-        <BooksContainer booksState={booksState} />
+        <BooksContainer booksState={booksState} updateBookState={updateBookState} deleteBookState={deleteBookState}/>
         <PageNavigation />
       </MaxWidthStyledContainer>
     </FullWidthContainer>

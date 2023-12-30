@@ -1,4 +1,4 @@
-import { SearchNavContainer, SearchInputContainer } from "./homeStyled";
+import { SearchNavContainer, SearchInputContainer, SortSelectorContainer, SortOptionsContainer, SortOption } from "./homeStyled";
 import SearchIcon from "../../assets/search.svg";
 import PropTypes from "prop-types";
 import { useState } from "react";
@@ -20,14 +20,25 @@ export default function SearchNav({ handleSearch }) {
       <SearchInputContainer onSubmit={handleSubmit}>
         <input placeholder="Search" value={search} onChange={handleChangeTitleInput}/>
         <button type="submit">
-          <img src={SearchIcon}  />
+          <img src={SearchIcon} />
         </button>
       </SearchInputContainer>
-      <select>
-        <option>Price</option>
-        <option>Title</option>
-        <option>Stock</option>
-      </select>
+        {/* <select>
+          <option>Price</option>
+          <option>Title</option>
+          <option>Stock</option>
+        </select> */}
+        <SortSelectorContainer>
+          Author ⬆
+          <SortOptionsContainer>
+            <SortOption>Title ⬆</SortOption>
+            <SortOption>Title ⬇</SortOption>
+            <SortOption>Stock ⬆</SortOption>
+            <SortOption>Stock ⬇</SortOption>
+            <SortOption>Price ⬆</SortOption>
+            <SortOption>Price ⬇</SortOption>
+          </SortOptionsContainer>
+        </SortSelectorContainer>
     </SearchNavContainer>
   );
 }

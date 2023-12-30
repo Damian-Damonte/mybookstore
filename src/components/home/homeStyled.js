@@ -27,16 +27,22 @@ export const SearchInputContainer = styled.form`
   justify-content: space-between;
   column-gap: 10px;
   max-width: 700px;
+  min-width: 10px;
+
+  @media (min-width: 400px) {
+    width: calc(100% - 110px);
+  }
 
   input {
     border: none;
     border-radius: 10px;
     height: 35px;
-    width: 100%;
+    width: calc(100% - 45px);
     cursor: pointer;
     padding: 5px;
     border: #000 solid 1px;
     background-color: #efe081;
+    min-width: 0px;
   }
 
   button {
@@ -58,6 +64,45 @@ export const SearchInputContainer = styled.form`
     }
   }
 `;
+
+export const SortSelectorContainer = styled.div`
+  height: 35px;
+  width: 90px;
+  background-color: red;
+  border-radius: 10px;
+  background-color: #efe081;
+  border: 1px solid #000;
+  display: flex;
+  align-items: center;
+  padding-left: 5px;
+  position: relative;
+`
+
+export const SortOptionsContainer = styled.div`
+  width: 90px;
+  /* height: 100px; */
+  background-color: red;
+  position: absolute;
+  top: 40px;
+  left: 0px;
+  border-radius: 10px;
+  background-color: #efe081;
+  border: 1px solid #000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* gap: 5px; */
+  padding: 5px 5px;
+`
+
+export const SortOption = styled.div`
+  width: 100%;
+  height: 25px;
+  /* background-color: red; */
+  /* border-top: 1px solid #000;
+  border-bottom: 1px solid #000; */
+`
 
 export const BookContainerStyled = styled.div`
   display: flex;
@@ -186,7 +231,7 @@ export const PageBtn = styled.button`
   }
 `;
 
-export const NoBooksContainer = styled.div`
+export const BookContainerMsgContainer = styled.div`
   width: 100%;
   max-width: 600px;
   background-color: #efe081;

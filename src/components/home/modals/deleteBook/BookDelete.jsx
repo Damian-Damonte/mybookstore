@@ -1,17 +1,11 @@
-import { BookContainer, BookImageContainer, BtnsContainer, GenreBtnsContainer, StockPriceContainer, TitleAuthorContainer } from './homeStyled'
-import EditIcon from "../../assets/edit.svg";
-import DeleteIcon from "../../assets/delete.svg";
+import { BookContainer, BookImageContainer, GenreBtnsContainer, StockPriceContainer, TitleAuthorContainer } from './deleteBookModalStyled';
 import PropTypes from "prop-types";
 
-export default function Book({ book, handleClicUpdateModal, handleClicDeleteModal }) {
+export default function BookDelete({ book }) {
   return (
     <BookContainer>
       <GenreBtnsContainer>
         <span>{book.genre}</span>
-        <BtnsContainer>
-          <img src={EditIcon} onClick={() => handleClicUpdateModal(book)}/>
-          <img src={DeleteIcon} onClick={() => handleClicDeleteModal(book)}/>
-        </BtnsContainer>
       </GenreBtnsContainer>
       <BookImageContainer />
       <TitleAuthorContainer>
@@ -26,7 +20,7 @@ export default function Book({ book, handleClicUpdateModal, handleClicDeleteModa
   )
 }
 
-Book.propTypes = {
+BookDelete.propTypes = {
   book: PropTypes.object,
   handleClicUpdateModal: PropTypes.func,
   handleClicDeleteModal: PropTypes.func

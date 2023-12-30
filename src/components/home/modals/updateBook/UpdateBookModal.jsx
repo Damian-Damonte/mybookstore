@@ -6,17 +6,18 @@ import {
 } from "../genericModal/GenericModalStyled";
 import PropTypes from "prop-types";
 import {
-  AddBookModalContainer,
+  UpdateBookModalContainer,
   FieldContainer,
   FormContainer,
-} from "./addBookModalStyled";
+} from "./updateBookModalStyled";
 import CloseIcon from "../../../../assets/close.svg";
-import { useState } from "react";
-import { postBook } from "../../../../service/books";
+import { useEffect, useState } from "react";
+import { updateBook } from "../../../../service/books";
 import { bookValidation } from "../../../../validations/bookValidation";
 import { LoaderStyled } from "../../../common/commonStyled";
 
-const initialForm = {
+const initialUpdateForm = {
+  id: "",
   title: "",
   author: "",
   genre: "",
@@ -25,15 +26,24 @@ const initialForm = {
   image_url: "",
 };
 
-export default function AddBookModal({ openAddBook, handleClicAddBook }) {
-  const [formData, setFormData] = useState(initialForm);
-  const [postState, setPostState] = useState({ loading: false, error: null });
+export default function UpdateBookModal({
+  openUpdateModal,
+  handleClicUpdateModal,
+  bookToUpdate,
+  updateBookState
+}) {
+  const [formData, setFormData] = useState(initialUpdateForm);
+  const [updateState, setUpdateState] = useState({ loading: false, error: null });
   const [formValidations, setFormValidations] = useState({});
 
+  useEffect(() => {
+    setFormData(bookToUpdate);
+  }, [bookToUpdate]);
+
   const closeModal = () => {
-    setFormData(initialForm);
+    setFormData(initialUpdateForm);
     setFormValidations({});
-    handleClicAddBook();
+    handleClicUpdateModal(initialUpdateForm);
   };
 
   const handleChange = (e) => {
@@ -55,37 +65,40 @@ export default function AddBookModal({ openAddBook, handleClicAddBook }) {
     const validations = bookValidation(formData);
 
     if (Object.keys(validations).length === 0) {
-      handlePostBook();
+      handleUpdateBook();
     } else {
       setFormValidations(validations);
     }
   };
 
-  const handlePostBook = async() => {
-    setPostState({ loading: true, error: null });
-    const response = await postBook(formData);
-    if(response.error) {
+  const handleUpdateBook = async () => {
+    setUpdateState({ loading: true, error: null });
+    const response = await updateBook(formData.id, formData);
+    if (response.error) {
       // Lanzar alerta de error
-      setPostState({ loading: false, error: response.error });
+      setUpdateState({ loading: false, error: response.error });
+      console.log("error actualizando book");
     } else {
-      setPostState({ loading: false, error: null });
+      setUpdateState({ loading: false, error: null });
+      updateBookState(formData);
       closeModal();
+      console.log("book actualizado");
       // Lanzar alerta de exito
     }
-  }
+  };
 
   return (
-    <GenericModalContainer $openModal={openAddBook}>
-      <CloseModal $openModal={openAddBook} onClick={closeModal} />
+    <GenericModalContainer $openModal={openUpdateModal}>
+      <CloseModal $openModal={openUpdateModal} onClick={closeModal} />
       <GenericModal
         onClick={(e) => e.stopPropagation()}
-        $openModal={openAddBook}
+        $openModal={openUpdateModal}
       >
         <CloseModalBtn onClick={closeModal}>
           <img src={CloseIcon} />
         </CloseModalBtn>
-        <AddBookModalContainer>
-          <h2>Add Book</h2>
+        <UpdateBookModalContainer>
+          <h2>Update Book</h2>
           <FormContainer>
             <FieldContainer>
               <label htmlFor="title">Title</label>
@@ -143,7 +156,7 @@ export default function AddBookModal({ openAddBook, handleClicAddBook }) {
             </FieldContainer>
           </FormContainer>
           <button type="button" onClick={handleSubmit}>
-            {postState.loading ? (
+            {updateState.loading ? (
               <LoaderStyled
                 $size="25px"
                 $loaderColor="#fff"
@@ -154,13 +167,15 @@ export default function AddBookModal({ openAddBook, handleClicAddBook }) {
               "Submit"
             )}
           </button>
-        </AddBookModalContainer>
+        </UpdateBookModalContainer>
       </GenericModal>
     </GenericModalContainer>
   );
 }
 
-AddBookModal.propTypes = {
-  openAddBook: PropTypes.bool,
-  handleClicAddBook: PropTypes.func,
+UpdateBookModal.propTypes = {
+  openUpdateModal: PropTypes.bool,
+  handleClicUpdateModal: PropTypes.func,
+  bookToUpdate: PropTypes.object,
+  updateBookState: PropTypes.func
 };

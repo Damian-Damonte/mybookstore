@@ -1,12 +1,12 @@
 import styled from "styled-components";
 
-export const AddBookContainer = styled.div`
+export const GenericModalContainer = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: absolute;
+  position: fixed;
   left: 0px;
   top: 0px;
   overflow: hidden;
