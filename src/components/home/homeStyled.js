@@ -1,11 +1,5 @@
 import styled from "styled-components";
 
-export const HomeContainer = styled.div`
-  background-color: #e8e8e8;
-  height: 700px;
-  width: 100%;
-`;
-
 export const SearchNavContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -30,7 +24,7 @@ export const SearchInputContainer = styled.form`
   min-width: 10px;
 
   @media (min-width: 400px) {
-    width: calc(100% - 110px);
+    width: calc(100% - 130px);
   }
 
   input {
@@ -43,6 +37,7 @@ export const SearchInputContainer = styled.form`
     border: #000 solid 1px;
     background-color: #efe081;
     min-width: 0px;
+    font-size: 16px;
   }
 
   button {
@@ -67,8 +62,7 @@ export const SearchInputContainer = styled.form`
 
 export const SortSelectorContainer = styled.div`
   height: 35px;
-  width: 90px;
-  background-color: red;
+  width: 100px;
   border-radius: 10px;
   background-color: #efe081;
   border: 1px solid #000;
@@ -76,12 +70,24 @@ export const SortSelectorContainer = styled.div`
   align-items: center;
   padding-left: 5px;
   position: relative;
-`
+  cursor: pointer;
+
+  span {
+    color: ${({ $optionSelected }) => ($optionSelected ? "#757575" : "#000")};
+  }
+`;
+
+export const CloseSortOptions = styled.div`
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: ${({ $showSortOptions }) => ($showSortOptions ? "auto" : "none")};
+`;
 
 export const SortOptionsContainer = styled.div`
-  width: 90px;
-  /* height: 100px; */
-  background-color: red;
+  width: 100px;
   position: absolute;
   top: 40px;
   left: 0px;
@@ -92,28 +98,46 @@ export const SortOptionsContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  /* gap: 5px; */
-  padding: 5px 5px;
-`
+  transition: all 0.3s ease-in-out;
+  overflow: hidden;
+  height: ${({ $showSortOptions }) => ($showSortOptions ? "162px" : "0px")};
+  visibility: ${({ $showSortOptions }) =>
+    $showSortOptions ? "visible" : "hidden"};
+`;
 
 export const SortOption = styled.div`
   width: 100%;
   height: 25px;
+  padding: 0px 5px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #d1c26e;
+  }
+`;
+
+export const HomeContainer = styled.div`
+  width: 100%;
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   /* background-color: red; */
-  /* border-top: 1px solid #000;
-  border-bottom: 1px solid #000; */
 `
 
 export const BookContainerStyled = styled.div`
-  display: flex;
   width: 100%;
   gap: 30px;
+  display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-items: center;
   align-items: center;
   margin-top: 30px;
   min-height: 310px;
 
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  justify-content: center;
 `;
 
 export const BookContainer = styled.div`
@@ -122,7 +146,12 @@ export const BookContainer = styled.div`
   padding: 15px;
   border-radius: 10px;
   border: #efe081 solid 1px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
 `;
+
 export const GenreBtnsContainer = styled.div`
   display: flex;
   justify-content: space-between;
@@ -166,10 +195,15 @@ export const BookImageContainer = styled.div`
   margin-top: 12px;
   width: 100%;
   height: 150px;
-  background-image: url(https://http2.mlstatic.com/D_NQ_NP_696382-MLA72416180393_102023-O.webp);
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const BookImage = styled.img`
+  width: ${({ $noImage }) => ($noImage ? "80%" : "100%")};
+  height: ${({ $noImage }) => ($noImage ? "80%" : "100%")};
+  object-fit: contain;
 `;
 
 export const TitleAuthorContainer = styled.div`
@@ -180,8 +214,14 @@ export const TitleAuthorContainer = styled.div`
   justify-content: center;
 
   span:first-child {
-    font-size: 18px;
+    font-size: 17px;
     font-weight: 600;
+
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   span:nth-child(2) {
@@ -194,9 +234,10 @@ export const StockPriceContainer = styled.div`
   align-items: center;
   justify-content: space-between;
   margin-top: 10px;
+  justify-self: center;
 
-  span:nth-child(1)>span {
-    background-color: ${({ $noStock }) => $noStock ? "#ff6961" : ""};
+  span:nth-child(1) > span {
+    background-color: ${({ $noStock }) => ($noStock ? "#ff6961" : "")};
     padding: 2px 5px;
     border-radius: 5px;
   }
@@ -222,12 +263,11 @@ export const PageBtn = styled.button`
   width: 35px;
   border-radius: 5px;
   border: #000 solid 1px;
-  background-color: #efe081;
-  cursor: pointer;
-  transition: all 0.3s ease;
+  background-color: ${({ $selected }) => ($selected ? "#efe081" : "#fffcef")};
+  cursor: ${({ $selected }) => ($selected ? "default" : "pointer")};
 
   &:hover {
-    background-color: #ddce77;
+    background-color: ${({ $selected }) => ($selected ? "#efe081" : "#f7f3e6")};
   }
 `;
 
@@ -251,4 +291,4 @@ export const BookContainerMsgContainer = styled.div`
     text-align: center;
     font-size: 20px;
   }
-`
+`;

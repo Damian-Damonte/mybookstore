@@ -1,6 +1,6 @@
 import { LoaderStyled } from "../common/commonStyled";
 import Book from "./Book";
-import BookContainerMsg from "./NoBooks";
+import BookContainerMsg from "./BookContainerMsg";
 import { BookContainerStyled } from "./homeStyled";
 import PropTypes from "prop-types";
 import IconNotFound from "../../assets/notFound.svg";
@@ -42,47 +42,55 @@ export default function BooksContainer({ booksState, updateBookState, deleteBook
       : (document.body.style.overflow = "visible");
   };
 
-  const renderElements = () => {
-    let elements;
-    if (error) {
-      elements = (
-        <BookContainerMsg
-          imgSrc={IconError}
-          text="Oops! Something went wrong with your search. Please try again later."
-        />
-      );
-    } else if (loading) {
-      elements = (
-        <LoaderStyled
-          $size="50px"
-          $loaderColor="#fffcef"
-          $bgcColor="#0B7072"
-          $borderWidth="4px"
-        />
-      );
-    } else if (books.length === 0) {
-      elements = (
-        <BookContainerMsg
-          imgSrc={IconNotFound}
-          text="No books found matching your search"
-        />
-      );
-    } else {
-      elements = books.map((book) => (
+  // const renderElements = () => {
+  //   let elements;
+  //   if (error) {
+  //     elements = (
+  //       <BookContainerMsg
+  //         imgSrc={IconError}
+  //         text="Oops! Something went wrong with your search. Please try again later."
+  //       />
+  //     );
+  //   } else if (loading) {
+  //     elements = (
+  //       <LoaderStyled
+  //         $size="50px"
+  //         $loaderColor="#fffcef"
+  //         $bgcColor="#0B7072"
+  //         $borderWidth="4px"
+  //       />
+  //     );
+  //   } else if (books.length === 0) {
+  //     elements = (
+  //       <BookContainerMsg
+  //         imgSrc={IconNotFound}
+  //         text="No books found matching your search"
+  //       />
+  //     );
+  //   } else {
+  //     elements = books.map((book) => (
+  //       <Book
+  //         key={book.id}
+  //         book={book}
+  //         handleClicUpdateModal={handleClicUpdateModal}
+  //         handleClicDeleteModal={handleClicDeleteModal}
+  //       />
+  //     ));
+  //   }
+  //   return elements;
+  // };
+
+  return (
+    <BookContainerStyled>
+      {/* {renderElements()} */}
+      {books.map((book) => (
         <Book
           key={book.id}
           book={book}
           handleClicUpdateModal={handleClicUpdateModal}
           handleClicDeleteModal={handleClicDeleteModal}
         />
-      ));
-    }
-    return elements;
-  };
-
-  return (
-    <BookContainerStyled>
-      {renderElements()}
+      ))}
       <UpdateBookModal
         openUpdateModal={openUpdateModal}
         handleClicUpdateModal={handleClicUpdateModal}

@@ -8,9 +8,9 @@ export const getBooks = async () => {
   return await get(`/books?page=${PAGE}&size=${PAGE_SIZE}&sort=${SORT}`);
 };
 
-export const searchBooksByTitle = async (title) => {
+export const searchBooksByTitle = async (title, sort, page) => {
   return await get(
-    `/books/search?title=${title}&page=${PAGE}&size=${PAGE_SIZE}&sort=${SORT}`
+    `/books/search?title=${title}&page=${page-1}&size=${PAGE_SIZE}&sort=${sort}`
   );
 };
 

@@ -1,49 +1,72 @@
-import { SearchNavContainer, SearchInputContainer, SortSelectorContainer, SortOptionsContainer, SortOption } from "./homeStyled";
+import {
+  SearchNavContainer,
+  SearchInputContainer,
+  SortSelectorContainer,
+  SortOptionsContainer,
+  SortOption,
+  CloseSortOptions,
+} from "./homeStyled";
 import SearchIcon from "../../assets/search.svg";
 import PropTypes from "prop-types";
 import { useState } from "react";
 
-export default function SearchNav({ handleSearch }) {
-  const [search, setSearch] = useState("");
+export default function SearchNav({ booksState, searchParams, setSearchParams }) {
+  const [searchText, setSearchText] = useState("");
+  const [sortOption, setSortOption] = useState("");
+  const [showSortOptions, setShowSortOptions] = useState(false);
 
   const handleChangeTitleInput = (e) => {
-    setSearch(e.target.value)
+    setSearchText(e.target.value);
+  };
+
+  
+  const handleShowSortOptions = () => {
+    setShowSortOptions(!showSortOptions);
   };
   
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleSearch(search);
-  }
-  
+    if(booksState.loading || searchText === searchParams.title) return;
+    setSearchParams({...searchParams, title: searchText, page:1, showPagerWhileLoading: false})
+  };
+
+  const handleSort = (sort) => {
+    if(booksState.loading || sort === sortOption || booksState.books.length === 0) return;
+    setSortOption(sort);
+    const sortParam = sort.replace(" ⬆", "").replace(" ⬇", ",desc").replace("Stock", "quantity").toLowerCase();
+    setSearchParams({...searchParams, sort: sortParam, showPagerWhileLoading: true})
+  };
+
   return (
     <SearchNavContainer>
       <SearchInputContainer onSubmit={handleSubmit}>
-        <input placeholder="Search" value={search} onChange={handleChangeTitleInput}/>
+        <input
+          placeholder="Search"
+          value={searchText}
+          onChange={handleChangeTitleInput}
+        />
         <button type="submit">
           <img src={SearchIcon} />
         </button>
       </SearchInputContainer>
-        {/* <select>
-          <option>Price</option>
-          <option>Title</option>
-          <option>Stock</option>
-        </select> */}
-        <SortSelectorContainer>
-          Author ⬆
-          <SortOptionsContainer>
-            <SortOption>Title ⬆</SortOption>
-            <SortOption>Title ⬇</SortOption>
-            <SortOption>Stock ⬆</SortOption>
-            <SortOption>Stock ⬇</SortOption>
-            <SortOption>Price ⬆</SortOption>
-            <SortOption>Price ⬇</SortOption>
-          </SortOptionsContainer>
-        </SortSelectorContainer>
+      <CloseSortOptions $showSortOptions={showSortOptions} onClick={handleShowSortOptions} />
+      <SortSelectorContainer onClick={handleShowSortOptions} $optionSelected={sortOption===""}>
+        <span>{sortOption === "" ? "Sort by..." : sortOption}</span>
+        <SortOptionsContainer $showSortOptions={showSortOptions}>
+          <SortOption onClick={() => handleSort("Title ⬆")}>Title ⬆</SortOption>
+          <SortOption onClick={() => handleSort("Title ⬇")}>Title ⬇</SortOption>
+          <SortOption onClick={() => handleSort("Stock ⬆")}>Stock ⬆</SortOption>
+          <SortOption onClick={() => handleSort("Stock ⬇")}>Stock ⬇</SortOption>
+          <SortOption onClick={() => handleSort("Price ⬆")}>Price ⬆</SortOption>
+          <SortOption onClick={() => handleSort("Price ⬇")}>Price ⬇</SortOption>
+        </SortOptionsContainer>
+      </SortSelectorContainer>
     </SearchNavContainer>
   );
 }
 
 SearchNav.propTypes = {
-  setSearch: PropTypes.func,
-  handleSearch: PropTypes.func,
+  booksState: PropTypes.object,
+  searchParams: PropTypes.object,
+  setSearchParams: PropTypes.func,
 };

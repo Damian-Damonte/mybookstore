@@ -19,7 +19,7 @@ export default function Header() {
     <FullWidthContainer $backgroundColor="#0B7072">
       <MaxWidthStyledContainer>
         <HeaderContainer>
-          <span>My Bookstore</span>
+          <a href="http://localhost:5173">My Bookstore</a>
           <button onClick={handleClicAddBook}>Add Book</button>
           <AddBookModal
             openAddBook={openAddBook}

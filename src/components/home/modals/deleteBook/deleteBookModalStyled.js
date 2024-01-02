@@ -89,8 +89,12 @@ export const BookContainer = styled.div`
   padding: 15px;
   border-radius: 10px;
   border: #efe081 solid 1px;
-  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
 `;
+
 export const GenreBtnsContainer = styled.div`
   display: flex;
   justify-content: space-between;
@@ -101,43 +105,19 @@ export const GenreBtnsContainer = styled.div`
   }
 `;
 
-export const BtnsContainer = styled.div`
-  display: flex;
-  gap: 10px;
-
-  img {
-    width: 30px;
-    background-color: red;
-    border-radius: 5px;
-    height: 30px;
-    padding: 4px;
-    transition: all 0.3s ease;
-    cursor: pointer;
-  }
-
-  img:nth-child(1) {
-    background-color: #84b6f4;
-    &:hover {
-      background-color: #76a3db;
-    }
-  }
-
-  img:nth-child(2) {
-    background-color: #ff6961;
-    &:hover {
-      background-color: #dd5b54;
-    }
-  }
-`;
-
 export const BookImageContainer = styled.div`
   margin-top: 12px;
   width: 100%;
   height: 150px;
-  background-image: url(https://http2.mlstatic.com/D_NQ_NP_696382-MLA72416180393_102023-O.webp);
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const BookImage = styled.img`
+  width: ${({ $noImage }) => ($noImage ? "80%" : "100%")};
+  height: ${({ $noImage }) => ($noImage ? "80%" : "100%")};
+  object-fit: contain;
 `;
 
 export const TitleAuthorContainer = styled.div`
@@ -148,8 +128,14 @@ export const TitleAuthorContainer = styled.div`
   justify-content: center;
 
   span:first-child {
-    font-size: 18px;
+    font-size: 17px;
     font-weight: 600;
+
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   span:nth-child(2) {
@@ -162,9 +148,10 @@ export const StockPriceContainer = styled.div`
   align-items: center;
   justify-content: space-between;
   margin-top: 10px;
+  justify-self: center;
 
-  span:nth-child(1)>span {
-    background-color: ${({ $noStock }) => $noStock ? "#ff6961" : ""};
+  span:nth-child(1) > span {
+    background-color: ${({ $noStock }) => ($noStock ? "#ff6961" : "")};
     padding: 2px 5px;
     border-radius: 5px;
   }

@@ -28,5 +28,6 @@ export const FooterContainer = styled.div`
   @media (min-width: 500px) {
     flex-direction: row;
     column-gap: 20px;
+    height: 29px;
   }
 `

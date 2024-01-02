@@ -11,6 +11,7 @@ export const GenericModalContainer = styled.div`
   top: 0px;
   overflow: hidden;
   visibility: ${({ $openModal }) => ($openModal ? "visible" : "hidden")};
+  z-index: 10;
 `
 
 export const CloseModal = styled.div`
@@ -24,10 +25,8 @@ export const CloseModal = styled.div`
 
 export const GenericModal = styled.div`
   position: relative;
-  /* height: 100%; */
   width: 100%;
   background-color: #fff;
-  /* max-height: 450px; */
   max-width: 600px;
   border-radius: 10px;
   display: flex;
