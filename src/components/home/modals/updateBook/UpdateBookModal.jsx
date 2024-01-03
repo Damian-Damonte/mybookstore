@@ -15,6 +15,7 @@ import { useEffect, useState } from "react";
 import { updateBook } from "../../../../service/books";
 import { bookValidation } from "../../../../validations/bookValidation";
 import { LoaderStyled } from "../../../common/commonStyled";
+import { renderToast } from "../../../../utils/renderToast";
 
 const initialUpdateForm = {
   id: "",
@@ -72,18 +73,17 @@ export default function UpdateBookModal({
   };
 
   const handleUpdateBook = async () => {
+    if (updateState.loading) return;
     setUpdateState({ loading: true, error: null });
     const response = await updateBook(formData.id, formData);
     if (response.error) {
-      // Lanzar alerta de error
+      renderToast("error", "Something went wrong. Please try again later.");
       setUpdateState({ loading: false, error: response.error });
-      console.log("error actualizando book");
     } else {
       setUpdateState({ loading: false, error: null });
       updateBookState(formData);
       closeModal();
-      console.log("book actualizado");
-      // Lanzar alerta de exito
+      renderToast("success", "Book updated successfully!");
     }
   };
 

@@ -15,6 +15,7 @@ import { useState } from "react";
 import { postBook } from "../../../../service/books";
 import { bookValidation } from "../../../../validations/bookValidation";
 import { LoaderStyled } from "../../../common/commonStyled";
+import { renderToast } from "../../../../utils/renderToast";
 
 const initialForm = {
   title: "",
@@ -62,15 +63,16 @@ export default function AddBookModal({ openAddBook, handleClicAddBook }) {
   };
 
   const handlePostBook = async() => {
+    if(postState.loading) return;
     setPostState({ loading: true, error: null });
     const response = await postBook(formData);
     if(response.error) {
-      // Lanzar alerta de error
+      renderToast("error", "Something went wrong. Please try again later.");
       setPostState({ loading: false, error: response.error });
     } else {
+      renderToast("success", "Book added successfully!");
       setPostState({ loading: false, error: null });
       closeModal();
-      // Lanzar alerta de exito
     }
   }
 

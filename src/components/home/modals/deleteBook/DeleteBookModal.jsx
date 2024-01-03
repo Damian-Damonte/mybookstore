@@ -8,9 +8,10 @@ import PropTypes from "prop-types";
 import { DeleteBookModalContainer } from "./deleteBookModalStyled";
 import CloseIcon from "../../../../assets/close.svg";
 import { useEffect, useState } from "react";
-import { deleteBook, updateBook } from "../../../../service/books";
+import { deleteBook } from "../../../../service/books";
 import { LoaderStyled } from "../../../common/commonStyled";
 import BookDelete from "./BookDelete";
+import { renderToast } from "../../../../utils/renderToast";
 
 const initialUpdateForm = {
   id: "",
@@ -29,7 +30,7 @@ export default function DeleteBookModal({
   deleteBookState
 }) {
   const [formData, setFormData] = useState(initialUpdateForm);
-  const [updateState, setUpdateState] = useState({ loading: false, error: null });
+  const [deleteState, setDeleteState] = useState({ loading: false, error: null });
 
   useEffect(() => {
     setFormData(bookToDelete);
@@ -41,18 +42,17 @@ export default function DeleteBookModal({
   };
 
   const handleDeleteBook = async () => {
-    setUpdateState({ loading: true, error: null });
+    if (deleteState.loading) return;
+    setDeleteState({ loading: true, error: null });
     const response = await deleteBook(formData.id);
     if (response.error) {
-      // Lanzar alerta de error
-      setUpdateState({ loading: false, error: response.error });
-      console.log("error eliminando book");
+      renderToast("error", "Something went wrong. Please try again later.");
+      setDeleteState({ loading: false, error: response.error });
     } else {
-      setUpdateState({ loading: false, error: null });
+      setDeleteState({ loading: false, error: null });
       deleteBookState(formData.id);
       closeModal();
-      console.log("book eliminando");
-      // Lanzar alerta de exito
+      renderToast("success", "Book deleted successfully!");
     }
   };
 
@@ -71,7 +71,7 @@ export default function DeleteBookModal({
           <BookDelete book={formData}/>
           
           <button type="button" onClick={handleDeleteBook}>
-            {updateState.loading ? (
+            {deleteState.loading ? (
               <LoaderStyled
                 $size="25px"
                 $loaderColor="#fff"
