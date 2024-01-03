@@ -7,7 +7,7 @@ import {
 import BooksContainer from "./BooksContainer";
 import PageNavigation from "./PageNavigation";
 import SearchNav from "./SearchNav";
-import { getBooks, searchBooksByTitle } from "../../service/books";
+import { searchBooks } from "../../service/books";
 
 import IconNotFound from "../../assets/notFound.svg";
 import IconError from "../../assets/error.svg";
@@ -17,7 +17,6 @@ import { HomeContainer } from "./homeStyled";
 export default function Home() {
   const [booksState, setBooksState] = useState({
     books: [],
-    currentPage: 1,
     totalPages: 1,
     loading: true,
     error: null,
@@ -27,13 +26,18 @@ export default function Home() {
     title: "",
     sort: "",
     page: 1,
-    showPagerWhileLoading: false
+    showPagerWhileLoading: false,
   });
 
   useEffect(() => {
     const fetch = async () => {
-      setBooksState({ books: [], currentPage: booksState.currentPage, totalPages: booksState.totalPages, loading: true, error: null });
-      const response = await searchBooksByTitle(
+      setBooksState({
+        books: [],
+        totalPages: booksState.totalPages,
+        loading: true,
+        error: null,
+      });
+      const response = await searchBooks(
         searchParams.title,
         searchParams.sort,
         searchParams.page
@@ -42,7 +46,6 @@ export default function Home() {
       if (response.error) {
         setBooksState({
           books: [],
-          currentPage: 1,
           totalPages: 1,
           loading: false,
           error: response.error,
@@ -50,7 +53,6 @@ export default function Home() {
       } else {
         setBooksState({
           books: response.data.data,
-          currentPage: response.data.currentPage + 1,
           totalPages: response.data.totalPages,
           loading: false,
           error: null,
@@ -100,12 +102,13 @@ export default function Home() {
         />
       );
     } else {
-      elements =
+      elements = (
         <BooksContainer
           booksState={booksState}
           updateBookState={updateBookState}
           deleteBookState={deleteBookState}
-        />;
+        />
+      );
     }
     return elements;
   };
@@ -113,15 +116,12 @@ export default function Home() {
   return (
     <FullWidthContainer $backgroundColor="#fffcef">
       <MaxWidthStyledContainer>
-        
         <SearchNav
           booksState={booksState}
           searchParams={searchParams}
           setSearchParams={setSearchParams}
         />
-        <HomeContainer>
-          {renderElements()}
-        </HomeContainer>
+        <HomeContainer>{renderElements()}</HomeContainer>
         <PageNavigation
           booksState={booksState}
           searchParams={searchParams}

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BookContainer, BookImage, BookImageContainer, GenreBtnsContainer, StockPriceContainer, TitleAuthorContainer } from './deleteBookModalStyled';
 import PropTypes from "prop-types";
 import NoImage from "../../../../assets/no-image.svg";
@@ -6,22 +6,21 @@ import NoImage from "../../../../assets/no-image.svg";
 export default function BookDelete({ book }) {
   const [imageUrl, setImageUrl] = useState("");
 
-  const isInvalidImageUrl = () => {
-    new Promise((resolve) => {
+  useEffect(() => {
+    new Promise((resolve, reject) => {
       const img = new Image();
-      img.onload = () => resolve(false);
-      img.onerror = () => resolve(true);
       img.src = book.image_url;
-    }).then((isInvalid) => isInvalid ? setImageUrl(NoImage):setImageUrl(book.image_url));
-  };
-  isInvalidImageUrl();
+      img.onload = () => resolve();
+      img.onerror = () => reject();
+    }).then(() => setImageUrl(book.image_url))
+    .catch(() => setImageUrl(NoImage));
+  }, []);
 
   return (
     <BookContainer>
       <GenreBtnsContainer>
         <span>{book.genre}</span>
       </GenreBtnsContainer>
-      {/* <BookImageContainer /> */}
       <BookImageContainer>
         {imageUrl && <BookImage src={imageUrl} $noImage={imageUrl===NoImage} alt='book-image'/>}
       </BookImageContainer>

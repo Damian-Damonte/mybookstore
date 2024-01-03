@@ -23,7 +23,6 @@ export default function PageNavigation({ booksState, searchParams, setSearchPara
       pager.push(<PageBtn key={i} $selected={searchParams.page === i} onClick={() => handleClicPage(i)}>{i}</PageBtn>);
     }
 
-    // return pager;
     return pager;
   }
 
@@ -34,7 +33,6 @@ export default function PageNavigation({ booksState, searchParams, setSearchPara
   }
 
   function handleClicPage(page) {
-    console.log("clic");
     if (page === searchParams.page) return;
     setSearchParams({...searchParams, page: page, showPagerWhileLoading: true})
   }

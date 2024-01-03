@@ -20,7 +20,7 @@ export const bookValidation = (form) => {
     validations.price = "Price must be greater than zero";
   }
 
-  if (!form.quantity) {
+  if (form.quantity === null ||form.quantity === "") {
     validations.quantity = errorEmptyField;
   }
 
