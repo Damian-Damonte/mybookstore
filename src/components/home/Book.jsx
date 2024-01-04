@@ -16,7 +16,7 @@ export default function Book({ book, handleClicUpdateModal, handleClicDeleteModa
       img.onerror = () => reject();
     }).then(() => setImageUrl(book.image_url))
     .catch(() => setImageUrl(NoImage));
-  }, []);
+  }, [book]);
 
   return (
     <BookContainer>

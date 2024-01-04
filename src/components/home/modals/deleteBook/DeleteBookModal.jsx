@@ -7,7 +7,7 @@ import {
 import PropTypes from "prop-types";
 import { DeleteBookModalContainer } from "./deleteBookModalStyled";
 import CloseIcon from "../../../../assets/close.svg";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { deleteBook } from "../../../../service/books";
 import { LoaderStyled } from "../../../common/commonStyled";
 import BookDelete from "./BookDelete";
@@ -29,28 +29,28 @@ export default function DeleteBookModal({
   bookToDelete,
   deleteBookState
 }) {
-  const [formData, setFormData] = useState(initialUpdateForm);
+  // const [formData, setFormData] = useState(initialUpdateForm);
   const [deleteState, setDeleteState] = useState({ loading: false, error: null });
 
-  useEffect(() => {
-    setFormData(bookToDelete);
-  }, [bookToDelete]);
+  // useEffect(() => {
+  //   setFormData(bookToDelete);
+  // }, [bookToDelete]);
 
   const closeModal = () => {
-    setFormData(initialUpdateForm);
+    // setFormData(initialUpdateForm);
     handleClicDeleteModal(initialUpdateForm);
   };
 
   const handleDeleteBook = async () => {
     if (deleteState.loading) return;
     setDeleteState({ loading: true, error: null });
-    const response = await deleteBook(formData.id);
+    const response = await deleteBook(bookToDelete.id);
     if (response.error) {
       renderToast("error", "Something went wrong. Please try again later.");
       setDeleteState({ loading: false, error: response.error });
     } else {
       setDeleteState({ loading: false, error: null });
-      deleteBookState(formData.id);
+      deleteBookState(bookToDelete.id);
       closeModal();
       renderToast("success", "Book deleted successfully!");
     }
@@ -68,7 +68,7 @@ export default function DeleteBookModal({
         </CloseModalBtn>
         <DeleteBookModalContainer>
           <h2>Are you sure you want to delete this book?</h2>
-          <BookDelete book={formData}/>
+          <BookDelete book={bookToDelete}/>
           
           <button type="button" onClick={handleDeleteBook}>
             {deleteState.loading ? (

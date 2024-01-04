@@ -14,7 +14,7 @@ export default function BookDelete({ book }) {
       img.onerror = () => reject();
     }).then(() => setImageUrl(book.image_url))
     .catch(() => setImageUrl(NoImage));
-  }, []);
+  }, [book]);
 
   return (
     <BookContainer>
